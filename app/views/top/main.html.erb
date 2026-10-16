@@ -1,0 +1,37 @@
+<p><%= notice %></p>
+<p><%= alert %></p>
+
+<h1>つぶやき一覧</h1>
+
+<% if logged_in? %>
+  <p><%= current_user.uid %> さんでログイン中｜<%= link_to 'ログアウト', top_logout_path %></p>
+  <%= form_with model: @tweet do |f| %>
+    <%= f.text_field :message, placeholder: "いまどうしてる？" %>
+    <%= f.submit "ツイート" %>
+  <% end %>
+<% else %>
+  <%= render 'login_form' %>
+<% end %>
+
+<hr>
+
+<% @tweets.each do |e| %>
+  <div>
+    <strong><%= e.user.uid %></strong>：<%= e.message %>
+    （いいね <%= e.likes.size %>）
+
+    <% if logged_in? %>
+      <% if e.likes.any? { |l| l.user_id == current_user.id } %>
+        <%= link_to 'いいね削除', like_path(e), data: { turbo_method: :delete } %>
+      <% else %>
+        <%= link_to 'いいね', likes_path(tweet_id: e.id), data: { turbo_method: :post } %>
+      <% end %>
+
+      <% if e.user_id == current_user.id %>
+        <%= link_to '削除', tweet_path(e), data: { turbo_method: :delete, turbo_confirm: '削除しますか？' } %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<p><%= link_to 'ユーザ一覧', users_path %></p>

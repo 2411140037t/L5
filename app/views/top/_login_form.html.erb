@@ -1,0 +1,7 @@
+<h2>ログイン</h2>
+<%= form_with url: top_login_path do |f| %>
+  ユーザID：<%= f.text_field :uid %>
+  パスワード：<%= f.password_field :pass %>
+  <%= f.submit "ログイン" %>
+<% end %>
+<p><%= link_to 'ユーザ登録はこちら', new_user_path %></p>

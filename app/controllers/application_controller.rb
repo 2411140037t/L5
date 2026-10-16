@@ -1,7 +1,21 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
-  allow_browser versions: :modern
+  # （もとからある行はそのまま）
 
-  # Changes to the importmap will invalidate the etag for HTML responses
-  stale_when_importmap_changes
+  helper_method :current_user, :logged_in?   # ビューでも使えるようにする
+
+  private
+
+  # ログイン中のユーザ（ログインしていなければ nil）
+  def current_user
+    @current_user ||= User.find_by(uid: session[:login_uid]) if session[:login_uid]
+  end
+
+  def logged_in?
+    current_user.present?
+  end
+
+  # ログインしていなければトップに戻す
+  def require_login
+    redirect_to root_path, alert: "ログインしてください" unless logged_in?
+  end
 end
