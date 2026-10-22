@@ -4,8 +4,7 @@
 <h1>つぶやき一覧</h1>
 
 <% if logged_in? %>
-  <p><%= current_user.uid %> さんでログイン中｜<%= link_to 'ログアウト', top_logout_path %></p>
-  <%= form_with model: @tweet do |f| %>
+  <p><%= current_user.uid %> さんでログイン中｜<%= link_to 'マイページ', user_path(current_user) %>｜<%= link_to 'ログアウト', top_logout_path %></p>  <%= form_with model: @tweet do |f| %>
     <%= f.text_field :message, placeholder: "いまどうしてる？" %>
     <%= f.submit "ツイート" %>
   <% end %>
@@ -17,8 +16,7 @@
 
 <% @tweets.each do |e| %>
   <div>
-    <strong><%= e.user.uid %></strong>：<%= e.message %>
-    （いいね <%= e.likes.size %>）
+    <strong><%= link_to e.user.uid, user_path(e.user) %></strong>：<%= e.message %>    （いいね <%= e.likes.size %>）
 
     <% if logged_in? %>
       <% if e.likes.any? { |l| l.user_id == current_user.id } %>

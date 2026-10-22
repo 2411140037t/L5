@@ -1,0 +1,25 @@
+<p><%= notice %></p>
+
+<h1><%= @user.uid %> さんのページ</h1>
+
+<h2>プロフィール</h2>
+<% if @user.profile %>
+  <p><%= @user.profile.message %></p>
+<% else %>
+  <p>（まだプロフィールがありません）</p>
+<% end %>
+
+<% if logged_in? && current_user == @user %>
+  <% if @user.profile %>
+    <%= link_to 'プロフィールを編集', edit_profile_path %>
+  <% else %>
+    <%= link_to 'プロフィールを作成', new_profile_path %>
+  <% end %>
+<% end %>
+
+<h2>ツイート（<%= @tweets.count %>件）</h2>
+<% @tweets.each do |t| %>
+  <div><%= t.message %>（いいね <%= t.likes.count %>）</div>
+<% end %>
+
+<p><%= link_to 'ツイート一覧へ', root_path %> | <%= link_to 'ユーザ一覧', users_path %></p>

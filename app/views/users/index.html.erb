@@ -4,7 +4,7 @@
 <ul>
   <% @users.each do |u| %>
     <li>
-      <%= u.uid %>
+      <%= link_to u.uid, user_path(u) %>
       <%= link_to '削除', user_path(u), data: { turbo_method: :delete, turbo_confirm: '削除しますか？' } %>
     </li>
   <% end %>

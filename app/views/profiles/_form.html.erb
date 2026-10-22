@@ -1,0 +1,14 @@
+<% if @profile.errors.any? %>
+  <ul>
+    <% @profile.errors.full_messages.each do |m| %>
+      <li><%= m %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= form_with model: @profile, url: profile_path do |f| %>
+  <p>自己紹介（200字以内）</p>
+  <p><%= f.text_area :message, rows: 4, cols: 40 %></p>
+  <%= f.submit "保存" %>
+<% end %>
+<p><%= link_to '戻る', user_path(current_user) %></p>
