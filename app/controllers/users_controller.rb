@@ -13,9 +13,9 @@ class UsersController < ApplicationController
   end
 
   def create
-    pass = params[:user][:pass]
-    @user = User.new(uid: params[:user][:uid])
-    @user.pass = BCrypt::Password.create(pass) if pass.present?   # 暗号化して入れる
+    @user = User.new(uid: params[:user][:uid],
+                     password: params[:user][:password],
+                     password_confirmation: params[:user][:password_confirmation])
     if @user.save
       redirect_to users_path, notice: "ユーザ登録しました"
     else

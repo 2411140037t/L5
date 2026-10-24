@@ -10,7 +10,14 @@
 
 <%= form_with model: @user do |f| %>
   <p>ユーザID：<%= f.text_field :uid %></p>
-  <p>パスワード：<%= f.password_field :pass, value: "" %></p>
+  <p>
+    <%= f.label :password, 'パスワード' %>
+    <%= f.text_field :password %>
+  </p>
+  <p>
+    <%= f.label :password_confirmation, 'パスワード（確認）' %>
+    <%= f.text_field :password_confirmation %>
+  </p>
   <%= f.submit "登録" %>
 <% end %>
 <%= link_to '戻る', users_path %>
